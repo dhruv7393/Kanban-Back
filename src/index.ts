@@ -8,6 +8,7 @@ import {
   validateEnvironment,
   logConfiguration,
 } from "./config/environment.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 // Validate environment variables
 validateEnvironment();
@@ -27,19 +28,12 @@ app.use(express.json());
 logConfiguration();
 
 // Connect to database (optional - fallback to in-memory if not available)
-if (
-  config.mongodbUri &&
-  config.mongodbUri !== "mongodb://localhost:27017/kanban"
-) {
-  connectDatabase().catch((err) => {
-    console.warn(
-      "⚠️ Database connection failed, using in-memory storage:",
-      err.message
-    );
-  });
-} else {
-  console.log("🔄 Using in-memory storage (no database configured)");
-}
+connectDatabase().catch((err) => {
+  console.warn(
+    "⚠️ Database connection failed, using in-memory storage:",
+    err.message
+  );
+});
 
 // Root endpoint
 app.get("/", (req, res) => {
@@ -56,6 +50,9 @@ app.get("/", (req, res) => {
 // API routes
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
+
+// Global error handler (must be last middleware)
+app.use(errorHandler);
 
 // Start server
 app.listen(config.port, () => {

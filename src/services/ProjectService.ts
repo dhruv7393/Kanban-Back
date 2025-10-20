@@ -11,11 +11,21 @@ import mongoose from "mongoose";
 export class ProjectService {
   async getAllProjects(): Promise<any[]> {
     try {
+      // Check if mongoose is connected
+      if (mongoose.connection.readyState !== 1) {
+        console.warn("⚠️ MongoDB not connected, returning empty array");
+        return [];
+      }
+
       const projects = await Project.find()
         .populate("taskCount")
         .sort({ createdAt: -1 });
       return projects;
     } catch (error) {
+      console.error("Error fetching projects:", error);
+      if (error instanceof Error && error.message.includes("not connected")) {
+        return [];
+      }
       throw createError("Failed to fetch projects", 500);
     }
   }

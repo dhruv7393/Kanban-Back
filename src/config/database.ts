@@ -8,12 +8,9 @@ interface DatabaseConfig {
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    if (
-      !config.mongodbUri ||
-      config.mongodbUri === "mongodb://localhost:27017/kanban"
-    ) {
+    if (!config.mongodbUri) {
       console.warn(
-        "⚠️ No valid MongoDB URI found, skipping database connection"
+        "⚠️ No MongoDB URI found, skipping database connection"
       );
       return;
     }
