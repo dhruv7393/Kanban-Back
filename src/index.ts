@@ -27,12 +27,10 @@ app.use(express.json());
 // Log current configuration
 logConfiguration();
 
-// Connect to database (optional - fallback to in-memory if not available)
+// Connect to database (required for API functionality)
 connectDatabase().catch((err) => {
-  console.warn(
-    "⚠️ Database connection failed, using in-memory storage:",
-    err.message
-  );
+  console.error("❌ Database connection failed:", err.message);
+  console.error("Full error:", err);
 });
 
 // Root endpoint

@@ -11,20 +11,25 @@ import mongoose from "mongoose";
 export class ProjectService {
   async getAllProjects(): Promise<any[]> {
     try {
-      // Check if mongoose is connected
-      if (mongoose.connection.readyState !== 1) {
-        console.warn("⚠️ MongoDB not connected, returning empty array");
-        return [];
-      }
-
+      console.log("🔍 getAllProjects called");
+      console.log("📊 MongoDB connection state:", mongoose.connection.readyState);
+      console.log("📊 MongoDB connection name:", mongoose.connection.name);
+      
       const projects = await Project.find()
         .populate("taskCount")
         .sort({ createdAt: -1 });
+      
+      console.log(`📊 Found ${projects.length} projects`);
       return projects;
     } catch (error) {
-      console.error("Error fetching projects:", error);
-      if (error instanceof Error && error.message.includes("not connected")) {
-        return [];
+      console.error("❌ Error fetching projects:", error);
+      console.error("📊 MongoDB connection state:", mongoose.connection.readyState);
+      if (error instanceof Error) {
+        console.error("📊 Error details:", {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
       }
       throw createError("Failed to fetch projects", 500);
     }

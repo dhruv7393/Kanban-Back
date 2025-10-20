@@ -15,6 +15,9 @@ export const connectDatabase = async (): Promise<void> => {
       return;
     }
 
+    console.log("🔗 Attempting to connect to MongoDB...");
+    console.log("📊 MongoDB URI configured:", config.mongodbUri ? "Yes" : "No");
+
     const dbConfig: DatabaseConfig = {
       uri: config.mongodbUri,
       options: {
@@ -28,6 +31,8 @@ export const connectDatabase = async (): Promise<void> => {
     await mongoose.connect(dbConfig.uri, dbConfig.options);
 
     console.log("✅ MongoDB connected successfully");
+    console.log("📊 Connection state:", mongoose.connection.readyState);
+    console.log("📊 Database name:", mongoose.connection.name);
 
     // Handle connection events
     mongoose.connection.on("error", (err) => {
