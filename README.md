@@ -54,9 +54,6 @@ A robust Node.js/Express backend API for the Kanban Dashboard application with M
    # CORS (adjust based on your frontend domain)
    CORS_ORIGIN=https://yourdomain.com
 
-   # Rate Limiting
-   RATE_LIMIT_WINDOW_MS=900000
-   RATE_LIMIT_MAX_REQUESTS=100
    ```
 
 ## 🌍 Environment Variables for AWS Deployment
@@ -70,13 +67,6 @@ NODE_ENV=production
 PORT=3001
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/kanban?retryWrites=true&w=majority
 CORS_ORIGIN=https://your-frontend-domain.com
-```
-
-### Optional Variables:
-
-```bash
-RATE_LIMIT_WINDOW_MS=900000     # Rate limit window in milliseconds (15 minutes)
-RATE_LIMIT_MAX_REQUESTS=100     # Max requests per window per IP
 ```
 
 ### MongoDB Setup:

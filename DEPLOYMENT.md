@@ -68,8 +68,6 @@ NODE_ENV=production
 PORT=8080
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/kanban
 CORS_ORIGIN=https://your-frontend-domain.com
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
 ```
 
 ### Option 2: AWS EC2
@@ -104,8 +102,6 @@ NODE_ENV=production
 PORT=3001
 MONGODB_URI=${MONGODB_URI}
 CORS_ORIGIN=${CORS_ORIGIN}
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
 EOF
 
 # Start application with PM2
@@ -289,14 +285,12 @@ sudo systemctl start mongod  # Ubuntu
 
 ## 🔧 Environment Variables Reference
 
-| Variable                  | Description                          | Default                          | Required |
-| ------------------------- | ------------------------------------ | -------------------------------- | -------- |
-| `NODE_ENV`                | Environment (development/production) | development                      | No       |
-| `PORT`                    | Server port                          | 3001                             | No       |
-| `MONGODB_URI`             | MongoDB connection string            | mongodb://localhost:27017/kanban | Yes      |
-| `CORS_ORIGIN`             | Allowed CORS origin                  | http://localhost:5173            | No       |
-| `RATE_LIMIT_WINDOW_MS`    | Rate limit window in ms              | 900000                           | No       |
-| `RATE_LIMIT_MAX_REQUESTS` | Max requests per window              | 100                              | No       |
+| Variable      | Description                          | Default                          | Required |
+| ------------- | ------------------------------------ | -------------------------------- | -------- |
+| `NODE_ENV`    | Environment (development/production) | development                      | No       |
+| `PORT`        | Server port                          | 3001                             | No       |
+| `MONGODB_URI` | MongoDB connection string            | mongodb://localhost:27017/kanban | Yes      |
+| `CORS_ORIGIN` | Allowed CORS origin                  | http://localhost:5173            | No       |
 
 ## 🧪 Testing the Deployment
 
@@ -380,12 +374,7 @@ const cloudWatchLogs = new CloudWatchLogs({ region: "us-east-1" });
    - Update CORS_ORIGIN environment variable
    - Ensure frontend domain is correct
 
-3. **Rate Limiting Issues:**
-
-   - Adjust RATE_LIMIT_MAX_REQUESTS
-   - Check if multiple instances are behind load balancer
-
-4. **Memory/Performance Issues:**
+3. **Memory/Performance Issues:**
    - Increase EC2 instance size
    - Optimize database queries
    - Add caching layer (Redis)
