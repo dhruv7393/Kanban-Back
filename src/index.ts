@@ -18,7 +18,7 @@ const app = express();
 // Basic middleware
 app.use(
   cors({
-    origin: config.corsOrigin,
+    origin: config.corsOrigins,
     credentials: true,
   })
 );
@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
     version: "1.0.0",
     endpoints: ["/api/projects", "/api/tasks"],
     mongodbUri: process.env.MONGODB_URI || "no uri",
-    corsOrigin: process.env.CORS_ORIGIN || "no cors",
+    corsOrigins: process.env.CORS_ORIGINS || "no cors",
     nodeEnv: process.env.NODE_ENV || "no env",
   });
 });
