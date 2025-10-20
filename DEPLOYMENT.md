@@ -189,7 +189,7 @@ package:
 
 ```typescript
 import serverless from "serverless-http";
-import app from "./server.js";
+import app from "./index.js";
 
 export const handler = serverless(app);
 ```
