@@ -1,21 +1,17 @@
 version: 1
-backend:
+frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - nvm use 18
+        - npm install
+
     build:
       commands:
         - npm run build
-        - npm run create-server-manifest
-    postBuild:
-      commands:
-        - echo "Build completed successfully"
+        - npm run postbuild
+        - echo "MONGODB_URI=mongodb+srv://dhruvaws8:Shleeji7393i@cluster0.znyjnot.mongodb.net/Kanban?retryWrites=true&w=majority" >> .amplify-hosting/compute/default/.env
   artifacts:
-    baseDirectory: .
+    baseDirectory: .amplify-hosting
     files:
       - "**/*"
-      - "!node_modules/**/*"
-  cache:
-    paths:
-      - node_modules/**/*
