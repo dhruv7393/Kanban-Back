@@ -3,11 +3,14 @@ frontend:
   phases:
     preBuild:
       commands:
-        - nvm use 18
+        - echo "Starting prebuild process..."
+        - nvm install 20
+        - nvm use 20
+        - node -v
         - npm install
-
     build:
       commands:
+        - echo "Starting build process..."
         - npm run build
         - npm run postbuild
         - echo "MONGODB_URI=mongodb+srv://dhruvaws8:Shleeji7393i@cluster0.znyjnot.mongodb.net/Kanban?retryWrites=true&w=majority" >> .amplify-hosting/compute/default/.env
