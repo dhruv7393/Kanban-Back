@@ -1,6 +1,4 @@
 import { Router } from "express";
-import projectRoutes from "./projectRoutes.js";
-import taskRoutes from "./taskRoutes.js";
 
 const router = Router();
 
@@ -13,9 +11,5 @@ router.get("/health", (req, res) => {
     uptime: process.uptime(),
   });
 });
-
-// API routes
-router.use("/projects", projectRoutes);
-router.use("/tasks", taskRoutes);
 
 export default router;
