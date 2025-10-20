@@ -14,18 +14,12 @@ export class ProjectService {
       );
       console.log("📊 MongoDB connection name:", mongoose.connection.name);
 
-      // Check if database is connected
-      if (mongoose.connection.readyState !== 1) {
-        console.error(
-          "❌ Database not connected. State:",
-          mongoose.connection.readyState
-        );
-        throw createError("Database connection not available", 503);
-      }
+      // Database connection is already checked by middleware
 
       const projects = await Project.find()
         .populate("taskCount")
-        .sort({ createdAt: -1 });
+        .sort({ createdAt: -1 })
+        .maxTimeMS(30000); // Set query timeout
 
       console.log(`📊 Found ${projects.length} projects`);
       return projects;
@@ -42,6 +36,12 @@ export class ProjectService {
           stack: error.stack,
         });
       }
+      
+      // Re-throw custom errors as-is
+      if (error instanceof Error && 'statusCode' in error) {
+        throw error;
+      }
+      
       throw createError("Failed to fetch projects", 500);
     }
   }
