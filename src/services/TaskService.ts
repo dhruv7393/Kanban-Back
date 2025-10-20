@@ -1,7 +1,7 @@
-import { Task, TaskDocument } from "../models/Task.js";
-import { Project } from "../models/Project.js";
-import { CreateTaskDTO, UpdateTaskDTO, TaskQuery } from "../types/index.js";
-import { createError } from "../middleware/errorHandler.js";
+import { Task } from "../models/Task";
+import { Project } from "../models/Project";
+import { CreateTaskDTO, UpdateTaskDTO, TaskQuery } from "../types/index";
+import { createError } from "../middleware/errorHandler";
 import mongoose from "mongoose";
 
 export class TaskService {

@@ -1,40 +1,45 @@
-import { Project, ProjectDocument } from "../models/Project.js";
-import { Task } from "../models/Task.js";
-import {
-  CreateProjectDTO,
-  UpdateProjectDTO,
-  ApiResponse,
-} from "../types/index.js";
-import { createError } from "../middleware/errorHandler.js";
+import { Project } from "../models/Project";
+import { Task } from "../models/Task";
+import { CreateProjectDTO, UpdateProjectDTO } from "../types/index";
+import { createError } from "../middleware/errorHandler";
 import mongoose from "mongoose";
 
 export class ProjectService {
   async getAllProjects(): Promise<any[]> {
     try {
       console.log("🔍 getAllProjects called");
-      console.log("📊 MongoDB connection state:", mongoose.connection.readyState);
+      console.log(
+        "📊 MongoDB connection state:",
+        mongoose.connection.readyState
+      );
       console.log("📊 MongoDB connection name:", mongoose.connection.name);
-      
+
       // Check if database is connected
       if (mongoose.connection.readyState !== 1) {
-        console.error("❌ Database not connected. State:", mongoose.connection.readyState);
+        console.error(
+          "❌ Database not connected. State:",
+          mongoose.connection.readyState
+        );
         throw createError("Database connection not available", 503);
       }
-      
+
       const projects = await Project.find()
         .populate("taskCount")
         .sort({ createdAt: -1 });
-      
+
       console.log(`📊 Found ${projects.length} projects`);
       return projects;
     } catch (error) {
       console.error("❌ Error fetching projects:", error);
-      console.error("📊 MongoDB connection state:", mongoose.connection.readyState);
+      console.error(
+        "📊 MongoDB connection state:",
+        mongoose.connection.readyState
+      );
       if (error instanceof Error) {
         console.error("📊 Error details:", {
           name: error.name,
           message: error.message,
-          stack: error.stack
+          stack: error.stack,
         });
       }
       throw createError("Failed to fetch projects", 500);

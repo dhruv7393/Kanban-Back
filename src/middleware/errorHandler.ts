@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ApiResponse } from "../types/index.js";
+import { ApiResponse } from "../types/index";
 
 export interface AppError extends Error {
   statusCode: number;
@@ -37,9 +37,9 @@ export const asyncHandler = (fn: Function) => {
 
 export const errorHandler = (
   err: AppError,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   let error = { ...err };
   error.message = err.message;

@@ -1,2 +1,2 @@
-export { Project, ProjectDocument } from "./Project.js";
-export { Task, TaskDocument } from "./Task.js";
+export { Project, ProjectDocument } from "./Project";
+export { Task, TaskDocument } from "./Task";

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { config } from "./environment.js";
+import { config } from "./environment";
 
 interface DatabaseConfig {
   uri: string;

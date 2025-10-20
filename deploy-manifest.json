@@ -11,6 +11,24 @@
   },
   "routes": [
     {
+      "path": "/_amplify/image",
+      "target": {
+        "kind": "ImageOptimization",
+        "cacheControl": "public, max-age=3600, immutable"
+      }
+    },
+    {
+      "path": "/*.*",
+      "target": {
+        "kind": "Static",
+        "cacheControl": "public, max-age=2"
+      },
+      "fallback": {
+        "kind": "Compute",
+        "src": "default"
+      }
+    },
+    {
       "path": "/*",
       "target": {
         "kind": "Compute",
@@ -21,7 +39,7 @@
   "computeResources": [
     {
       "name": "default",
-      "runtime": "nodejs20.x",
+      "runtime": "nodejs18.x",
       "entrypoint": "index.js"
     }
   ]

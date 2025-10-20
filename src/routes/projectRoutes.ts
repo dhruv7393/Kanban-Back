@@ -1,17 +1,17 @@
-import { Router } from "express";
-import {
+const { Router } = require("express");
+const {
   getProjects,
   getProject,
   createProject,
   updateProject,
   deleteProject,
   getProjectStats,
-} from "../controllers/projectController.js";
-import {
+} = require("../controllers/projectController");
+const {
   validateCreateProject,
   validateUpdateProject,
   validateId,
-} from "../middleware/validation.js";
+} = require("../middleware/validation");
 
 const router = Router();
 
@@ -33,4 +33,4 @@ router.delete("/:id", validateId, deleteProject);
 // GET /api/projects/:id/stats
 router.get("/:id/stats", validateId, getProjectStats);
 
-export default router;
+module.exports = router;
