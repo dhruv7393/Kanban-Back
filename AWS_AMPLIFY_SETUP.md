@@ -41,9 +41,9 @@ Key: PORT
 Value: 3001
 Description: Server port (optional, defaults to 3001)
 
-Key: CORS_ORIGIN
-Value: https://your-frontend-domain.amplifyapp.com
-Description: Frontend URL for CORS configuration
+Key: CORS_ORIGINS
+Value: https://main.d1vg9d1h24p9v9.amplifyapp.com,https://*.amplifyapp.com
+Description: Comma-separated list of allowed frontend URLs for CORS configuration
 
 Key: NODE_ENV
 Value: production
@@ -78,7 +78,7 @@ In AWS Amplify build logs, you should see:
 🔧 Current configuration:
    - Environment: production
    - Port: 3001
-   - CORS Origin: https://your-domain.com
+   - CORS Origins: https://your-domain.com
    - MongoDB: ✅ Configured
 ```
 
@@ -93,7 +93,7 @@ In AWS Amplify build logs, you should see:
 
 1. **Missing Variables**: Check AWS Amplify Console environment variables
 2. **Database Connection**: Verify MongoDB URI format and credentials
-3. **CORS Errors**: Ensure CORS_ORIGIN matches your frontend domain
+3. **CORS Errors**: Ensure CORS_ORIGINS includes your frontend domain
 4. **Build Failures**: Check build logs in AWS Amplify Console
 
 ### Local Development:
@@ -103,7 +103,7 @@ Create a `.env` file in the root directory:
 ```env
 MONGODB_URI=mongodb://localhost:27017/kanban
 PORT=3001
-CORS_ORIGIN=http://localhost:5173
+CORS_ORIGINS=http://localhost:5173,http://localhost:3000
 NODE_ENV=development
 ```
 

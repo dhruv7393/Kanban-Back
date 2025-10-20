@@ -31,7 +31,44 @@ connectDatabase();
 
 app.use(
   cors({
-    origin: config.corsOrigins,
+    origin: (origin, callback) => {
+      console.log(`🌐 CORS check for origin: ${origin}`);
+      console.log(`📋 Allowed origins: ${config.corsOrigins.join(', ')}`);
+      
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) {
+        console.log('✅ CORS: Allowing request with no origin');
+        return callback(null, true);
+      }
+      
+      // Check if the origin is in our allowed list or matches patterns
+      const isAllowed = config.corsOrigins.some(allowedOrigin => {
+        if (allowedOrigin === origin) {
+          console.log(`✅ CORS: Exact match for ${origin}`);
+          return true;
+        }
+        if (allowedOrigin.includes('*')) {
+          // Handle wildcard patterns like *.amplifyapp.com
+          const pattern = allowedOrigin.replace(/\*/g, '.*');
+          const regex = new RegExp(`^${pattern}$`);
+          const matches = regex.test(origin);
+          if (matches) {
+            console.log(`✅ CORS: Pattern match for ${origin} with ${allowedOrigin}`);
+          }
+          return matches;
+        }
+        return false;
+      });
+      
+      if (isAllowed) {
+        console.log(`✅ CORS: Allowing origin ${origin}`);
+        callback(null, true);
+      } else {
+        console.log(`❌ CORS: Blocking origin ${origin}`);
+        logger.warn(`CORS blocked request from origin: ${origin}`);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   })
 );
@@ -89,6 +126,16 @@ app.get("/health", (_req: express.Request, res: express.Response) => {
     mongoState: dbStates[dbConnectionState as keyof typeof dbStates] || "unknown",
     mongoStateCode: dbConnectionState,
     dbName: mongoose.connection.name || "none",
+    timestamp: new Date().toISOString(),
+  });
+});
+
+// CORS test endpoint
+app.get("/cors-test", (_req: express.Request, res: express.Response) => {
+  res.json({
+    message: "CORS test successful",
+    allowedOrigins: config.corsOrigins,
+    requestOrigin: _req.headers.origin || "no origin header",
     timestamp: new Date().toISOString(),
   });
 });
