@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const {
+import { Router } from "express";
+import {
   getTasks,
   getTask,
   createTask,
@@ -7,13 +7,13 @@ const {
   deleteTask,
   getTasksByProject,
   updateTaskStatus,
-} = require("../controllers/taskController");
-const {
+} from "../controllers/taskController";
+import {
   validateCreateTask,
   validateUpdateTask,
   validateId,
   validateTaskQuery,
-} = require("../middleware/validation");
+} from "../middleware/validation";
 
 const router = Router();
 
@@ -38,4 +38,4 @@ router.patch("/:id/status", validateId, updateTaskStatus);
 // GET /api/projects/:projectId/tasks
 router.get("/projects/:projectId", validateId, getTasksByProject);
 
-module.exports = router;
+export default router;

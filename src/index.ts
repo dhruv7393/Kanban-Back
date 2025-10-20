@@ -4,14 +4,17 @@ import cors from "cors";
 import process from "process";
 import dotenv from "dotenv";
 import logger from "./config/logger";
+import { connectDatabase } from "./config/database";
+import projectRoutes from "./routes/projectRoutes";
+import taskRoutes from "./routes/taskRoutes";
+
 dotenv.config();
 
 const app: express.Application = express();
-const port = 3000;
-const mongourl: string = process.env.MONGODB_URI as string;
+const port = 3001;
 
-const connectDB = require("./config/db");
-connectDB(mongourl);
+// Connect to database
+connectDatabase();
 
 app.use(cors());
 app.use(express.json());
@@ -27,9 +30,6 @@ app.get("/", (_req: express.Request, res: express.Response) => {
     nodeEnv: process.env.NODE_ENV || "no env",
   });
 });
-
-const projectRoutes = require("./routes/projectRoutes");
-const taskRoutes = require("./routes/taskRoutes");
 
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
