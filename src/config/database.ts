@@ -8,6 +8,16 @@ interface DatabaseConfig {
 
 export const connectDatabase = async (): Promise<void> => {
   try {
+    if (
+      !config.mongodbUri ||
+      config.mongodbUri === "mongodb://localhost:27017/kanban"
+    ) {
+      console.warn(
+        "⚠️ No valid MongoDB URI found, skipping database connection"
+      );
+      return;
+    }
+
     const dbConfig: DatabaseConfig = {
       uri: config.mongodbUri,
       options: {
@@ -43,7 +53,13 @@ export const connectDatabase = async (): Promise<void> => {
     });
   } catch (error) {
     console.error("❌ Failed to connect to MongoDB:", error);
-    process.exit(1);
+    console.warn("⚠️ Continuing without database connection");
+    // Don't exit in production, just log the error
+    if (process.env.NODE_ENV === "production") {
+      console.warn("Application will continue with limited functionality");
+    } else {
+      process.exit(1);
+    }
   }
 };
 
