@@ -12,6 +12,8 @@ frontend:
     preBuild:
       commands:
         - npm ci
+        # Set environment variables from AWS Amplify environment
+        - echo "Setting up environment variables..."
     build:
       commands:
         - npm run build
@@ -22,3 +24,10 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
+  environmentVariables:
+    # These variables will be available during build and runtime
+    # Configure these in the AWS Amplify Console under Environment Variables
+    - MONGODB_URI
+    - PORT
+    - CORS_ORIGIN
+    - NODE_ENV

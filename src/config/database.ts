@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { config } from "./environment.js";
 
 interface DatabaseConfig {
   uri: string;
@@ -7,8 +8,8 @@ interface DatabaseConfig {
 
 export const connectDatabase = async (): Promise<void> => {
   try {
-    const config: DatabaseConfig = {
-      uri: process.env.MONGODB_URI || "mongodb://localhost:27017/kanban",
+    const dbConfig: DatabaseConfig = {
+      uri: config.mongodbUri,
       options: {
         maxPoolSize: 10,
         serverSelectionTimeoutMS: 5000,
@@ -17,7 +18,7 @@ export const connectDatabase = async (): Promise<void> => {
       },
     };
 
-    await mongoose.connect(config.uri, config.options);
+    await mongoose.connect(dbConfig.uri, dbConfig.options);
 
     console.log("✅ MongoDB connected successfully");
 

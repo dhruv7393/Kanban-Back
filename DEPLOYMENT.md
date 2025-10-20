@@ -28,7 +28,42 @@
 
 ## 🌐 AWS Deployment Options
 
-### Option 1: AWS Elastic Beanstalk (Recommended)
+### Option 1: AWS Amplify (Recommended for Full-Stack Apps)
+
+**Prerequisites:**
+
+- AWS Account with Amplify access
+- Repository connected to AWS Amplify
+
+**Environment Variables Setup:**
+
+1. **In AWS Amplify Console:**
+   - Go to your app in AWS Amplify Console
+   - Navigate to "Environment variables" section
+   - Add the following variables:
+
+   ```
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/kanban
+   PORT=3001
+   CORS_ORIGIN=https://your-frontend-domain.com
+   NODE_ENV=production
+   ```
+
+2. **Build Configuration:**
+   - The `amplify.yml` file is already configured to use these environment variables
+   - Variables will be available during both build and runtime
+
+3. **Deploy:**
+   ```bash
+   git push origin main  # or your default branch
+   ```
+
+**Important Notes:**
+- Store sensitive values like database credentials in AWS Systems Manager Parameter Store or AWS Secrets Manager for production
+- The environment variables defined in `amplify.yml` will be automatically injected during deployment
+- For secrets, use AWS Amplify's built-in environment variable encryption
+
+### Option 2: AWS Elastic Beanstalk
 
 **Prerequisites:**
 
