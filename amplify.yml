@@ -28,6 +28,5 @@ frontend:
     # These variables will be available during build and runtime
     # Configure these in the AWS Amplify Console under Environment Variables
     - MONGODB_URI
-    - PORT
     - CORS_ORIGIN
     - NODE_ENV
