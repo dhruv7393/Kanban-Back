@@ -52,12 +52,15 @@ app.use("/api/tasks", taskRoutes);
 // Global error handler (must be last middleware)
 app.use(errorHandler);
 
-// Start server
-app.listen(config.port, () => {
-  console.log(`🚀 Server running on port ${config.port}`);
-  console.log(
-    `📚 API endpoints available at http://localhost:${config.port}/api`
-  );
-});
-
+// For serverless deployment (AWS Amplify)
 export default app;
+
+// For local development
+if (process.env.NODE_ENV !== "production") {
+  app.listen(config.port, () => {
+    console.log(`🚀 Server running on port ${config.port}`);
+    console.log(
+      `📚 API endpoints available at http://localhost:${config.port}/api`
+    );
+  });
+}

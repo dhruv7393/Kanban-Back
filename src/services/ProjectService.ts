@@ -15,6 +15,12 @@ export class ProjectService {
       console.log("📊 MongoDB connection state:", mongoose.connection.readyState);
       console.log("📊 MongoDB connection name:", mongoose.connection.name);
       
+      // Check if database is connected
+      if (mongoose.connection.readyState !== 1) {
+        console.error("❌ Database not connected. State:", mongoose.connection.readyState);
+        throw createError("Database connection not available", 503);
+      }
+      
       const projects = await Project.find()
         .populate("taskCount")
         .sort({ createdAt: -1 });
