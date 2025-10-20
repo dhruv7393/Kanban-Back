@@ -7,26 +7,15 @@ backend:
     build:
       commands:
         - npm run build
-frontend:
-  phases:
-    preBuild:
+        - npm run create-server-manifest
+    postBuild:
       commands:
-        - npm ci
-        # Set environment variables from AWS Amplify environment
-        - echo "Setting up environment variables..."
-    build:
-      commands:
-        - npm run build
+        - echo "Build completed successfully"
   artifacts:
-    baseDirectory: dist
+    baseDirectory: .
     files:
       - "**/*"
+      - "!node_modules/**/*"
   cache:
     paths:
       - node_modules/**/*
-  environmentVariables:
-    # These variables will be available during build and runtime
-    # Configure these in the AWS Amplify Console under Environment Variables
-    - MONGODB_URI
-    - CORS_ORIGIN
-    - NODE_ENV
