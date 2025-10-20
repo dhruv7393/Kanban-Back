@@ -47,6 +47,9 @@ app.get("/", (req, res) => {
     message: "Kanban Dashboard API",
     version: "1.0.0",
     endpoints: ["/api/projects", "/api/tasks"],
+    mongodbUri: process.env.MONGODB_URI || "no uri",
+    corsOrigin: process.env.CORS_ORIGIN || "no cors",
+    nodeEnv: process.env.NODE_ENV || "no env",
   });
 });
 
