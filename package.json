@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc && npm run create-manifest",
+    "create-manifest": "echo '{\"version\":1,\"framework\":\"node\",\"distDir\":\"dist\",\"buildCommand\":\"npm run build\",\"startCommand\":\"npm start\",\"routes\":[{\"route\":\"/*\",\"target\":\"/index.js\"}]}' > dist/deploy-manifest.json",
     "start": "node dist/index.js"
   },
   "dependencies": {

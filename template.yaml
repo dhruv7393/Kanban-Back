@@ -1,0 +1,27 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Kanban Backend API",
+  "Resources":
+    {
+      "KanbanAPI":
+        {
+          "Type": "AWS::Serverless::Function",
+          "Properties":
+            {
+              "Runtime": "nodejs18.x",
+              "Handler": "index.handler",
+              "CodeUri": "dist/",
+              "Environment": { "Variables": { "NODE_ENV": "production" } },
+              "Events":
+                {
+                  "ApiGateway":
+                    {
+                      "Type": "Api",
+                      "Properties": { "Path": "/{proxy+}", "Method": "ANY" },
+                    },
+                },
+            },
+        },
+    },
+}
